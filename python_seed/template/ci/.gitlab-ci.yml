@@ -9,6 +9,8 @@ before_script:
 
 .test:
   script:
+    - mkdir -p $HOME/.pip
+    - cp $PIPCONF $HOME/.pip/pip.conf # pip.conf for resolving lookups
     - pip install tox codecov pre-commit
     - tox
 
@@ -20,6 +22,8 @@ test:
 deploy:
   environment: deploy
   script:
+    - mkdir -p $HOME/.pip
+    - cp $PIPCONF $HOME/.pip/pip.conf # pip.conf for resolving lookups
     - cp $PYPIRC $HOME/.pypirc # get your specific pypi config
     - python setup.py bdist_wheel upload -r local-da # replace local-da with your pypi setting
   artifacts:
@@ -57,6 +61,3 @@ pages:
 #   image: python:3.8
 #   variables:
 #     TOXENV: py38
-
-
-
