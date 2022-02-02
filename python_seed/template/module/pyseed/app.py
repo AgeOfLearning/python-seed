@@ -19,6 +19,7 @@ def dup_strings(arg_one: str, arg_two: int):
     arg_two
         A integer of the number of times `arg_one` should be repeated.
 
+
     >>> dup_strings('A', 3)
     'AAA'
     """
