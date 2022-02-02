@@ -33,13 +33,16 @@ CI_CHOICES = ["circleci", "github", "gitlab"]
 )
 def create(name, ci, docs):
     """Create new python seed skeleton."""
+
+    new_dir = name
+    name = name.replace("-", "_")
     template_dir = str(resources_files("python_seed") / "template" / "module")
-    shutil.rmtree(f"{name}/{name}", ignore_errors=True)
-    shutil.rmtree(f"{name}/docs", ignore_errors=True)
-    shutil.copytree(template_dir, name, dirs_exist_ok=True)
+    shutil.rmtree(f"{new_dir}/{name}", ignore_errors=True)
+    shutil.rmtree(f"{new_dir}/docs", ignore_errors=True)
+    shutil.copytree(template_dir, f"{new_dir}", dirs_exist_ok=True)
 
     gitignore = str(resources_files("python_seed") /  "template" / ".gitignore")
-    shutil.copy2(gitignore, f"{name}/.gitignore")
+    shutil.copy2(gitignore, f"{new_dir}/.gitignore")
 
     if ci:
         # acommodate gitlab's single file ci config
@@ -47,30 +50,24 @@ def create(name, ci, docs):
             template_file = str(
                 resources_files("python_seed") / "template" / "ci" / ".gitlab-ci.yml"
             )
-            shutil.copy2(template_file, f"{name}/.gitlab-ci.yml")
+            shutil.copy2(template_file, f"{new_dir}/.gitlab-ci.yml")
         else:
             template_dir = str(
                 resources_files("python_seed") / "template" / "ci" / f".{ci}"
             )
-            shutil.copytree(template_dir, f"{name}/.{ci}", dirs_exist_ok=True)
+            shutil.copytree(template_dir, f"{new_dir}/.{ci}", dirs_exist_ok=True)
 
         covconfig = str(
             resources_files("python_seed") / "template" / "cov" / "codecov.yml"
         )
-        shutil.copy2(covconfig, f"{name}/codecov.yml")
+        shutil.copy2(covconfig, f"{new_dir}/codecov.yml")
     
     if docs:
         docs_dir = str(
             resources_files("python_seed") / "template" / "docs"
         )
-        shutil.copytree(docs_dir, f"{name}/docs", dirs_exist_ok=True)
+        shutil.copytree(docs_dir, f"{new_dir}/docs", dirs_exist_ok=True)
 
-
-
-
-
-    new_dir = name
-    name = name.replace("-", "_")
     for root, _, files in os.walk(new_dir):
         if root.endswith("pyseed"):
             shutil.move(root, root.replace("pyseed", name))

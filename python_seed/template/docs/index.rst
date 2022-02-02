@@ -5,9 +5,6 @@
 
 The rest of this is reST.
 
-.. automodule:: pyseed.app
-    :members:
-
 
 .. toctree::
    :maxdepth: 2

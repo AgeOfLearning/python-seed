@@ -18,6 +18,7 @@ test:
     TOXENV: py39
 
 deploy:
+  when: manual
   environment: deploy
   script:
     - cp $PYPIRC $HOME/.pypirc # get your specific pypi config

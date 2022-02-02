@@ -20,6 +20,7 @@ test:
     TOXENV: py39
 
 deploy:
+  when: manual
   environment: deploy
   script:
     - mkdir -p $HOME/.pip
@@ -34,7 +35,7 @@ deploy:
 
 pages:
   script:
-    - pip install sphinx sphinx-rtd-theme myst-parser
+    - pip install sphinx sphinx-rtd-theme myst-parser sphinx-autoapi
     - cd docs ; make html
     - mv _build/html/ ../public/
   artifacts:
